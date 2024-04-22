@@ -3,47 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three-Part Layout</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Divided Web Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-item {
+            margin-right: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .left {
+            background-color: #f2f2f2;
+            width: 25%;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .left-content {
+            margin-bottom: 20px;
+        }
+
+        .right {
+            background-color: #e0e0e0;
+            width: 75%;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Account</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Account</a></li>
-                </ul>
-            </nav>
-            <!-- Navigation bar content goes here -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <a class="navbar-item" href="home">Home</a>
+            <a class="navbar-item" href="#code editor">Code editor</a>
+            <a class="navbar-item" href="#exit">Exit</a>
+          
         </div>
-        <div class="sidebar">
-            <!-- Sidebar content goes here -->
-            <ul>
-                <li><a href="#">Overview</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Dataset</a></li>
-                <li><a href="#">Preprocessing</a></li>
-                <li><a href="#">Models</a></li>
-                <li><a href="#">Visualization</a></li>
-                <li><a href="#">Evaluate</a></li>
-                <li><a href="#">Source Code</a></li>
-            </ul>
+        <div class="navbar-right">
+            <div class="navbar-item">Account</div>
+            <!-- Add more items for account functionality if needed -->
         </div>
-        <div class="content">
-            <h1>Points</h1>
-            <p>Classification</p>
-            <p>Clustering</p>
-            <!-- Main content goes here -->
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <a href="preprocessing" class="left-content" id="preprocessing">
+                <h2>Preprocessing</h2>
+                <p>This section contains information about data preprocessing.</p>
+            </a>
+            <a href="#label" class="left-content" id="label">
+                <h2>Label / Target</h2>
+                <p>This section contains information about labels and targets.</p>
+            </a>
+            <a href="#models" class="left-content" id="models">
+                <h2>Models</h2>
+                <p>This section contains information about machine learning models.</p>
+            </a>
+            <a href="#visualization" class="left-content" id="visualization">
+                <h2>Visualization</h2>
+                <p>This section contains information about data visualization techniques.</p>
+            </a>
+            <a href="#comparison" class="left-content" id="comparison">
+                <h2>Comparison</h2>
+                <p>This section contains information about model comparison.</p>
+            </a>
         </div>
-    </main>
+        <div class="right">
+            <!-- Right section content goes here -->
+            <h2>Right Section</h2>
+            <p>This is the content of the right section.</p>
+        </div>
+    </div>
 </body>
 </html>
