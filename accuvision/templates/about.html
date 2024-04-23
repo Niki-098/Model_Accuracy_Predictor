@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divided Web Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-item {
+            margin-right: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .left {
+            background-color: #100801;
+            width: 15%;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            overflow-y: auto; /* Add scrollbar if content exceeds container height */
+        }
+
+        .left-content {
+            margin-bottom: 5px;
+            display: block;
+            color: #333; /* Set the color of content links */
+            text-decoration: none; /* Remove underline */
+            cursor: pointer;
+        }
+
+        .left-content:hover {
+            color: #555; /* Change color on hover */
+        }
+
+        .middle {
+            text-align: center;
+            background-color: #e0e0e0;
+            width: 70%;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+        .right {
+            text-align: center;
+            background-color: #e0e0e0;
+            width: 15%;
+            padding: 20px;
+            background-color: #100801;
+        }
+        p {
+            display: block;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            margin-left: 0;
+            margin-right: 0;
+          }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a class="navbar-item" href="/">Home</a>
+            
+           
+        </div>
+        <div class="navbar-right">
+            
+            <!-- Add more items for account functionality if needed -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <p>left side</p>
+        </div>
+        <div class="middle">
+            <!-- Right section content goes here -->
+            <h2></h2>
+            <h2>Welcome to AccuVision!</h2>
+            
+            <p>
+
+                AccuVision leads the way in machine learning innovation, offering a groundbreaking platform designed to optimize model accuracy and maximize the potential of datasets. Our platform provides a seamless and automated approach that covers every aspect of the model optimization process, from data preprocessing to algorithm selection, hyperparameter tuning, and insightful comparative visualization.
+
+At AccuVision, we believe in simplifying the model optimization journey. Our user-friendly interface guides users through each step with ease, empowering them to achieve optimal model performance. By integrating advanced machine learning algorithms with intuitive graphical tools, users can effortlessly navigate complex datasets and algorithms to drive towards unprecedented levels of accuracy.
+
+Users can upload their datasets directly onto the platform, where they gain access to a suite of preprocessing tools. These tools allow users to clean, transform, and prepare their data for modeling, ensuring that their datasets are primed for analysis. From handling missing values to scaling features and encoding categorical variables, AccuVision provides users with the necessary tools to preprocess their data effectively.
+
+Once the data preprocessing is complete, users have access to a diverse range of algorithms for model selection. Our comprehensive library includes traditional methods such as linear regression and decision trees, as well as more advanced techniques like neural networks and ensemble methods. Through our intuitive graphical interface, users can explore and compare the performance of different algorithms, gaining insights into their strengths and weaknesses across various datasets.
+
+AccuVision further enhances the model optimization process by allowing users to fine-tune hyperparameters for optimal performance. Hyperparameter tuning is a critical aspect of model optimization, and our platform provides users with the tools and resources needed to experiment with different settings, iteratively refining their models until they achieve the desired level of accuracy.
+
+In addition to robust data preprocessing, algorithm selection, and hyperparameter tuning capabilities, AccuVision enables users to conduct insightful comparative visualizations for accuracy metrics. Comparative visualization allows users to compare the performance of different models across various metrics, gaining a deeper understanding of how each model performs and making informed decisions about deployment.
+
+For users who prefer a more hands-on approach, AccuVision offers a dedicated code space where they can write and execute custom scripts, giving them full control over the model building and optimization process and the flexibility to implement advanced techniques and methodologies as needed.
+
+In summary, AccuVision represents a paradigm shift in the field of machine learning model optimization. By providing users with a cohesive and automated platform that integrates every aspect of the model optimization process, we empower users to unlock the full potential of their datasets and achieve unparalleled levels of accuracy. With our user-friendly interface, comprehensive documentation, and dedicated code space, we're revolutionizing the way machine learning models are optimized and deployed.
+
+
+                </p>
+        </div>
+       <div class="right">
+          <h2>middle section</h2>
+       </div>
+
+
+    </div>
+</body>
+</html>

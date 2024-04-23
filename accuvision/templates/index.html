@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,13 +48,23 @@
             width: 25%;
             padding: 20px;
             border-right: 1px solid #ccc;
+           overflow-y: auto;/* Add scrollbar if content exceeds container height */
         }
 
         .left-content {
             margin-bottom: 20px;
+            display: block;
+            color: #333; /* Set the color of content links */
+            text-decoration: none; /* Remove underline */
+            cursor: pointer;
+        }
+
+        .left-content:hover {
+            color: #555; /* Change color on hover */
         }
 
         .right {
+            text-align: center;
             background-color: #e0e0e0;
             width: 75%;
             padding: 20px;
@@ -62,15 +73,24 @@
         .content {
             padding: 20px;
         }
+       
+        .icon {
+            width: 100px; /* Adjust size as needed */
+            height: 100px; /* Adjust size as needed */
+            cursor: pointer;
+        }
+
     </style>
+    <script src="{% static 'upload_script.js' %}"></script>
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-left">
-            <a class="navbar-item" href="home">Home</a>
-            <a class="navbar-item" href="#code editor">Code editor</a>
+            <a class="navbar-item" href="/">Home</a>
+            <a class="navbar-item" href="/about">About</a>
+            <a class="navbar-item" href="#codeeditor">Code editor</a>
             <a class="navbar-item" href="#exit">Exit</a>
-          
+           
         </div>
         <div class="navbar-right">
             <div class="navbar-item">Account</div>
@@ -80,7 +100,7 @@
 
     <div class="container">
         <div class="left">
-            <a href="preprocessing" class="left-content" id="preprocessing">
+            <a href="#preprocessing" class="left-content" id="preprocessing">
                 <h2>Preprocessing</h2>
                 <p>This section contains information about data preprocessing.</p>
             </a>
@@ -103,8 +123,22 @@
         </div>
         <div class="right">
             <!-- Right section content goes here -->
-            <h2>Right Section</h2>
-            <p>This is the content of the right section.</p>
+            <br><br>
+            <h2>Welcome to AccuVision!</h2>
+            <br><br>
+            <p>Start your project now, take the first step and dive deep into the world of AI and ML.</p>
+            <br><br><br><br><br>
+            <a href="#"><img src="static/upload.png" alt="Icon" class="icon"></a>
+            <p>Upload your dataset</p>
+            <br><br>
+
+            <!-- Dataset upload form -->
+            <form id="upload-form" enctype="multipart/form-data">
+                <!-- Input field for file upload -->
+                <input type="file" id="file-input" name="file" accept=".csv, .xlsx, .xls">
+                <!-- Button to trigger file upload -->
+                <button type="submit">Upload Dataset</button>
+            </form>
         </div>
     </div>
 </body>
