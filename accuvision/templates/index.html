@@ -94,6 +94,7 @@
         </div>
         <div class="navbar-right">
             <div class="navbar-item">Account</div>
+            <a class="navbar-item" href="/upload_success.html">Uploaded Dataset</a>
             <!-- Add more items for account functionality if needed -->
         </div>
     </div>
@@ -133,7 +134,8 @@
             <br><br>
 
             <!-- Dataset upload form -->
-            <form id="upload-form" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+                {% csrf_token %}
                 <!-- Input field for file upload -->
                 <input type="file" id="file-input" name="file" accept=".csv, .xlsx, .xls">
                 <!-- Button to trigger file upload -->
