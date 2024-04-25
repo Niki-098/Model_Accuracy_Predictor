@@ -27,4 +27,6 @@ urlpatterns = [
     path('about/',views.about, name = 'about'),
     path('upload/', views.upload_file, name='upload_file'),
     path('upload_success/<str:filename>/', views.upload_success, name='upload_success'),  # URL for upload success
-] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+    path('show_uploaded_files/',views.show_uploaded_files,name='show_uploaded_files'),
+    
+    ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

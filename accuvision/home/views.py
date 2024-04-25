@@ -1,8 +1,10 @@
 import os
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .form import UploadForm
+from .models import UploadedFile
+
 
 
 # Create your views here.
@@ -33,3 +35,18 @@ def upload_success(request, filename):
     # Pass uploaded file information to the template
     context = {'filename': filename}
     return render(request, 'upload_success.html', context)
+
+
+
+def show_uploaded_files(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('show_uploaded_files')
+    else:
+        form = UploadForm()
+
+    # Retrieve all uploaded files from the database
+    files = UploadedFile.objects.all()
+    return render(request, 'uploaded_files.html', {'files': files, 'form': form})
