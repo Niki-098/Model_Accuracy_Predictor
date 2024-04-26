@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preprocess Files</title>
+</head>
+<body>
+    <h1>Select Dataset for Preprocessing</h1>
+    <form id="preprocess_form" method="post" action = {% url 'preprocessing_files' %}>
+        {% csrf_token %}
+        <label for="selected_file">Select File:</label>
+        <select name="selected_file" id="selected_file">
+            {% for file in files %}
+                <option value="{{ file.id }}">{{ file.file.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Preprocess Dataset</button>
+    </form>
+
+    

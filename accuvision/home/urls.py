@@ -20,6 +20,7 @@ from home import views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
    # path('admin/', admin.site.urls),
@@ -28,5 +29,11 @@ urlpatterns = [
     path('upload/', views.upload_file, name='upload_file'),
     path('upload_success/<str:filename>/', views.upload_success, name='upload_success'),  # URL for upload success
     path('show_uploaded_files/',views.show_uploaded_files,name='show_uploaded_files'),
-    
+    path('upload/', views.upload_files, name='upload_files'),  # URL for uploading files
+    path('preprocess_files/', views.preprocess_files, name='preprocess_files'),  # URL for preprocessing
+   # path('preprocessed_files/', views.preprocessed_files, name='preprocessed_files'),  # URL for preprocessing
+
+    path('preprocessing_files/', views.preprocessing_files, name='preprocessing_files'),
+    path('preprocessed_files/',TemplateView.as_view(template_name='preprocessed_files.html'), name = 'preprocessed_files'),
+
     ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
