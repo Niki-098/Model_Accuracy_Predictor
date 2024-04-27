@@ -93,11 +93,28 @@ def preprocessing_files(request):
         
         # Preprocess the dataset
         preprocessed_data = auto_preprocess_dataset(dataset)
-        
-        # Redirect to the preprocessed_files view after successful preprocessing
-        return JsonResponse({'success': True, 'redirect_url': reverse('preprocessed_files')})
+        #context = {'preprocessed_data': preprocessed_data}
+        #return render(request, 'preprocessed_files.html', context)
+            # Call download_preprocessed_data and pass preprocessed_data as a parameter
+        # Render the preprocessed data page with the preprocessed data
+        return render(request, 'preprocessed_files.html', {'preprocessed_data': preprocessed_data})
     else:
+        pass
+        # Redirect to the preprocessed_files view after successful preprocessing
+        #return JsonResponse({'success': True, 'redirect_url': reverse('preprocessed_files')})
+    #else:
         # Fetch all uploaded files by the current user
-        files = UploadedFile.objects.filter(uploaded_by=request.user)
-        return render(request, 'preprocess.html', {'files': files})
+        #files = UploadedFile.objects.filter(uploaded_by=request.user)
+        #return render(request, 'preprocess.html', {'files': files})
 
+import io
+
+def download_preprocessed_data(request,preprocessed_data):
+    # Generate the preprocessed data in Excel format
+    excel_data = io.BytesIO()
+    preprocessed_data.to_excel(excel_data, index=False)
+
+    # Create an HttpResponse object with the Excel data as the content
+    response = HttpResponse(excel_data.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="preprocessed_data.xlsx"'
+    return response

@@ -35,5 +35,5 @@ urlpatterns = [
 
     path('preprocessing_files/', views.preprocessing_files, name='preprocessing_files'),
     path('preprocessed_files/',TemplateView.as_view(template_name='preprocessed_files.html'), name = 'preprocessed_files'),
-
+    path('download-preprocessed-data/', views.download_preprocessed_data, name='download_preprocessed_data'),
     ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
