@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models</title>
+</head>
+<body>
+    <h1>Models</h1>
+    <form action="{% url 'model_selection' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="dataset">Upload Dataset:</label>
+        <input type="file" name="dataset" id="dataset">
+        <br>
+        <label for="target_label">Select Target Label:</label>
+        <select name="target_label" id="target_label">
+            {% for column in dataset_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="remove_columns">Columns to Remove:</label>
+        <select name="remove_columns" id="remove_columns" multiple>
+            {% for column in dataset_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="model_type">Select Model Type:</label>
+        <select name="model_type" id="model_type">
+            <optgroup label="Classification Models">
+                <option value="Logistic Regression">Logistic Regression</option>
+                <option value="Decision Trees">Decision Trees</option>
+                <option value="Random Forest">Random Forest</option>
+                <option value="Gradient Boosting Machines (GBM)">Gradient Boosting Machines (GBM)</option>
+                <option value="Support Vector Machines (SVM)">Support Vector Machines (SVM)</option>
+                <option value="k-Nearest Neighbors (k-NN)">k-Nearest Neighbors (k-NN)</option>
+                <option value="Naive Bayes">Naive Bayes</option>
+            </optgroup>
+            <optgroup label="Clustering Models">
+                <option value="K-Means">K-Means</option>
+                <option value="Hierarchical Clustering">Hierarchical Clustering</option>
+            </optgroup>
+        </select>
+        <br>
+        <button type="submit">Select Model</button>
+    </form>
+</body>
+</html>

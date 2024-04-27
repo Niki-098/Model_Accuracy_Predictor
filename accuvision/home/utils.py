@@ -23,3 +23,5 @@ def auto_preprocess_dataset(dataset):
         dataset[numerical_cols] = scaler.fit_transform(dataset[numerical_cols])
 
     return dataset
+
+

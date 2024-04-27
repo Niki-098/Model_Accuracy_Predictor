@@ -96,25 +96,64 @@ def preprocessing_files(request):
         #context = {'preprocessed_data': preprocessed_data}
         #return render(request, 'preprocessed_files.html', context)
             # Call download_preprocessed_data and pass preprocessed_data as a parameter
-        # Render the preprocessed data page with the preprocessed data
-        return render(request, 'preprocessed_files.html', {'preprocessed_data': preprocessed_data})
+        preprocessed_data = auto_preprocess_dataset(dataset)
+        #context = {'preprocessed_data': preprocessed_data}  # Pass preprocessed_data to the template context
+        #return render(request, 'preprocessed_files.html', context)
+        # Store the preprocessed data in the session
+        request.session['preprocessed_data'] = preprocessed_data.to_json()
+        
+        # Redirect to the preprocessed files page
+        return redirect('preprocessed_files')
     else:
         pass
-        # Redirect to the preprocessed_files view after successful preprocessing
-        #return JsonResponse({'success': True, 'redirect_url': reverse('preprocessed_files')})
-    #else:
-        # Fetch all uploaded files by the current user
-        #files = UploadedFile.objects.filter(uploaded_by=request.user)
-        #return render(request, 'preprocess.html', {'files': files})
+        
 
 import io
 
-def download_preprocessed_data(request,preprocessed_data):
-    # Generate the preprocessed data in Excel format
-    excel_data = io.BytesIO()
-    preprocessed_data.to_excel(excel_data, index=False)
+def download_preprocessed_data(request):
+    # Retrieve the preprocessed data from the session
+    preprocessed_data_json = request.session.get('preprocessed_data', None)
+    
+    if preprocessed_data_json:
+        # Convert the JSON data back to a DataFrame
+        preprocessed_data = pd.read_json(preprocessed_data_json)
+        
+        # Create a BytesIO object to store the Excel file
+        excel_file = io.BytesIO()
+        
+        # Use the BytesIO object as the excel_writer argument
+        preprocessed_data.to_excel(excel_file, index=False)
 
-    # Create an HttpResponse object with the Excel data as the content
-    response = HttpResponse(excel_data.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="preprocessed_data.xlsx"'
-    return response
+        # Prepare the response with the Excel data
+        response = HttpResponse(excel_file.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="preprocessed_data.xlsx"'
+        return response
+    else:
+        # If preprocessed data is not found, handle the error appropriately
+        return HttpResponse("Preprocessed data not found.", status=404)
+
+
+from django.shortcuts import render, redirect
+
+def model_page(request):
+    return render(request, 'model.html')
+
+
+def model_selection(request):
+    if request.method == 'POST':
+        # Handle form submission
+        # Retrieve the uploaded dataset file
+        uploaded_file = request.FILES['dataset']
+        
+        # Process the uploaded dataset file
+        # Assuming you read the dataset into a DataFrame called 'dataset_df'
+        dataset_df = pd.read_csv(uploaded_file)
+        
+        # Get the column names of the dataset
+        dataset_columns = dataset_df.columns.tolist()
+
+        # Render the model selection page with dataset columns as context
+        return render(request, 'model.html', {'dataset_columns': dataset_columns})
+    else:
+        # Render the empty model selection page
+        return render(request, 'model.html')
