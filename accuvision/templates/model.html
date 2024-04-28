@@ -14,15 +14,15 @@
         <br>
         <label for="target_label">Select Target Label:</label>
         <select name="target_label" id="target_label">
-            {% for column in dataset_columns %}
-                <option value="{{ column }}">{{ column }}</option>
+            {% for choice in form.target_label.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}
         </select>
         <br>
         <label for="remove_columns">Columns to Remove:</label>
         <select name="remove_columns" id="remove_columns" multiple>
-            {% for column in dataset_columns %}
-                <option value="{{ column }}">{{ column }}</option>
+            {% for choice in form.remove_columns.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}
         </select>
         <br>

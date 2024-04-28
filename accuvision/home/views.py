@@ -1,5 +1,6 @@
 import os
 from django.conf import settings
+from django.forms import ModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import pandas as pd
@@ -133,10 +134,31 @@ def download_preprocessed_data(request):
         return HttpResponse("Preprocessed data not found.", status=404)
 
 
-from django.shortcuts import render, redirect
+
+
+
+# views.py
+
+
+
+# views.py
+
 
 def model_page(request):
-    return render(request, 'model.html')
+    if request.method == 'POST':
+        form = ModelForm(request.POST, request.FILES, dataset_columns=[])
+        if form.is_valid():
+            # Handle form submission here
+            # You can access the uploaded file using form.cleaned_data['dataset']
+            # Extract column names from the dataset and pass them to the form
+            dataset = form.cleaned_data['dataset']
+            dataset_columns = extract_column_names(dataset)  # Get column names from the dataset
+            form = ModelForm(data=request.POST, files=request.FILES, dataset_columns=dataset_columns)
+            context = {'form': form, 'dataset_columns': dataset_columns}
+            return render(request, 'models.html', context)
+    else:
+        form = ModelForm(dataset_columns=[])
+    return render(request, 'models.html', {'form': form})
 
 
 def model_selection(request):
@@ -157,3 +179,13 @@ def model_selection(request):
     else:
         # Render the empty model selection page
         return render(request, 'model.html')
+    
+
+def extract_column_names(file):
+    # Read the Excel file into a pandas DataFrame
+    df = pd.read_excel(file)
+
+    # Get the column names
+    column_names = df.columns.tolist()
+
+    return column_names
