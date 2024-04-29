@@ -11,39 +11,15 @@
         {% csrf_token %}
         <label for="dataset">Upload Dataset:</label>
         <input type="file" name="dataset" id="dataset">
-        <br>
+        <br><br>
+        <label for="remove_columns">Columns to Remove (comma-separated):</label>
+        <input type="text" name="remove_columns" id="remove_columns">
+        <br><br>
         <label for="target_label">Select Target Label:</label>
-        <select name="target_label" id="target_label">
-            {% for choice in form.target_label.choices %}
-                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="remove_columns">Columns to Remove:</label>
-        <select name="remove_columns" id="remove_columns" multiple>
-            {% for choice in form.remove_columns.choices %}
-                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="model_type">Select Model Type:</label>
-        <select name="model_type" id="model_type">
-            <optgroup label="Classification Models">
-                <option value="Logistic Regression">Logistic Regression</option>
-                <option value="Decision Trees">Decision Trees</option>
-                <option value="Random Forest">Random Forest</option>
-                <option value="Gradient Boosting Machines (GBM)">Gradient Boosting Machines (GBM)</option>
-                <option value="Support Vector Machines (SVM)">Support Vector Machines (SVM)</option>
-                <option value="k-Nearest Neighbors (k-NN)">k-Nearest Neighbors (k-NN)</option>
-                <option value="Naive Bayes">Naive Bayes</option>
-            </optgroup>
-            <optgroup label="Clustering Models">
-                <option value="K-Means">K-Means</option>
-                <option value="Hierarchical Clustering">Hierarchical Clustering</option>
-            </optgroup>
-        </select>
-        <br>
-        <button type="submit">Select Model</button>
+        <input type="text" name="target_label" id="target_label">
+        <br><br>
+     
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

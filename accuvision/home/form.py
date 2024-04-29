@@ -11,17 +11,10 @@ class UploadFileForm(forms.Form):
 
 
 
-
-
-
+class UploadDatasetForm(forms.Form):
+    dataset = forms.FileField(label='Upload Dataset', help_text='Supported formats: CSV, Excel')
 
 class ModelForm(forms.Form):
-    target_label = forms.ChoiceField(choices=[])
-    remove_columns = forms.MultipleChoiceField(choices=[])
-    
-    def __init__(self, *args, dataset_columns=None, **kwargs):
-        super(ModelForm, self).__init__(*args, **kwargs)
-        if dataset_columns is not None:
-            self.fields['target_label'].choices = [(col, col) for col in dataset_columns]
-            self.fields['remove_columns'].choices = [(col, col) for col in dataset_columns]
- 
+    target_label = forms.CharField(label='Select Target Label')
+    remove_columns = forms.MultipleChoiceField(label='Columns to Remove', required=False, widget=forms.CheckboxSelectMultiple)
+    model_type = forms.ChoiceField(label='Select Model Type', choices=[])

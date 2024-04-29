@@ -139,47 +139,7 @@ def download_preprocessed_data(request):
 
 # views.py
 
-
-
-# views.py
-
-
-def model_page(request):
-    if request.method == 'POST':
-        form = ModelForm(request.POST, request.FILES, dataset_columns=[])
-        if form.is_valid():
-            # Handle form submission here
-            # You can access the uploaded file using form.cleaned_data['dataset']
-            # Extract column names from the dataset and pass them to the form
-            dataset = form.cleaned_data['dataset']
-            dataset_columns = extract_column_names(dataset)  # Get column names from the dataset
-            form = ModelForm(data=request.POST, files=request.FILES, dataset_columns=dataset_columns)
-            context = {'form': form, 'dataset_columns': dataset_columns}
-            return render(request, 'models.html', context)
-    else:
-        form = ModelForm(dataset_columns=[])
-    return render(request, 'models.html', {'form': form})
-
-
-def model_selection(request):
-    if request.method == 'POST':
-        # Handle form submission
-        # Retrieve the uploaded dataset file
-        uploaded_file = request.FILES['dataset']
-        
-        # Process the uploaded dataset file
-        # Assuming you read the dataset into a DataFrame called 'dataset_df'
-        dataset_df = pd.read_csv(uploaded_file)
-        
-        # Get the column names of the dataset
-        dataset_columns = dataset_df.columns.tolist()
-
-        # Render the model selection page with dataset columns as context
-        return render(request, 'model.html', {'dataset_columns': dataset_columns})
-    else:
-        # Render the empty model selection page
-        return render(request, 'model.html')
-    
+from .form import UploadDatasetForm, ModelForm
 
 def extract_column_names(file):
     # Read the Excel file into a pandas DataFrame
@@ -189,3 +149,57 @@ def extract_column_names(file):
     column_names = df.columns.tolist()
 
     return column_names
+
+import pandas as pd
+
+def model_page(request):
+    if request.method == 'POST':
+        form = ModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            dataset = form.cleaned_data['dataset']
+            remove_columns = request.POST.get('remove_columns', '').split(',')  # Get columns to remove
+            target_label = request.POST.get('target_label', '')  # Get target label column name
+            
+            # Read the uploaded dataset into a pandas DataFrame
+            df = pd.read_excel(dataset)
+            
+            # Remove the specified columns
+            df.drop(remove_columns, axis=1, inplace=True)
+            
+            # Now you can use 'df' for further processing
+            
+            return render(request, 'model.html', {'form': form})
+    else:
+        form = ModelForm()
+    return render(request, 'model.html', {'form': form})
+
+
+
+
+def model_selection(request):
+    if request.method == 'POST':
+        # Handle form submission
+        dataset = request.FILES['dataset']
+        remove_columns = request.POST.get('remove_columns').split(',')
+        target_label = request.POST.get('target_label')
+        
+        # Read the dataset into a pandas DataFrame
+        df = pd.read_excel(dataset)
+        
+        # Remove specified columns
+        df.drop(columns=remove_columns, inplace=True)
+        
+        # Export the modified DataFrame to Excel
+        output = io.BytesIO()
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
+        df.to_excel(writer, index=False)
+        writer._save()
+        output.seek(0)
+        
+        # Prepare response with the modified Excel file for download
+        response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=modified_dataset.xlsx'
+        return response
+        
+    return render(request, 'model.html')
+
