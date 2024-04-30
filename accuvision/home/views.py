@@ -203,3 +203,44 @@ def model_selection(request):
         
     return render(request, 'model.html')
 
+
+from .utils import train_logistic_regression
+#from .form import ModelForm__
+
+from django.shortcuts import render, redirect
+from .form import TargetColumnForm
+from .utils import train_logistic_regression
+
+def logistic_regression_view(request):
+    if request.method == 'POST':
+        form = TargetColumnForm(request.POST)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Assuming the dataset is already available in the session or some other storage
+            dataset = request.session.get('dataset')  # Adjust this according to your setup
+
+            # Call the logistic regression training function
+            accuracy = train_logistic_regression(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'results.html', {'accuracy': accuracy})
+    else:
+        form = TargetColumnForm()
+    return render(request, 'logistic_regression.html', {'form': form})
+
+# views.py
+from django.shortcuts import render, redirect
+from .form import ModelSelectForm
+
+def model_select_view(request):
+    if request.method == 'POST':
+        form = ModelSelectForm(request.POST)
+        if form.is_valid():
+            selected_model = form.cleaned_data['selected_model']
+            # Redirect to the appropriate URL based on the selected model
+            return redirect('model_view', model_name=selected_model)
+    else:
+        form = ModelSelectForm()
+    return render(request, 'model_select.html', {'form': form})

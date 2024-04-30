@@ -25,3 +25,27 @@ def auto_preprocess_dataset(dataset):
     return dataset
 
 
+# utils.py
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+def train_logistic_regression(dataset, target_column_name):
+    # Separate features (X) and target variable (y)
+    X = dataset.drop(columns=target_column_name)
+    y = dataset[target_column_name]
+
+    # Initialize the Logistic Regression classifier
+    log_reg_classifier = LogisticRegression(max_iter=1000)
+
+    # Train the classifier
+    log_reg_classifier.fit(X, y)
+
+    # Make predictions on the training set
+    y_pred = log_reg_classifier.predict(X)
+
+    # Calculate accuracy
+    accuracy = accuracy_score(y, y_pred)
+    return accuracy
+
+

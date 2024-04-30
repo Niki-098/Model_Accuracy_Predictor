@@ -36,6 +36,8 @@ urlpatterns = [
     path('preprocessing_files/', views.preprocessing_files, name='preprocessing_files'),
     path('preprocessed_files/',TemplateView.as_view(template_name='preprocessed_files.html'), name = 'preprocessed_files'),
     path('download-preprocessed-data/', views.download_preprocessed_data, name='download_preprocessed_data'),
-     path('models/', views.model_page, name='model_page'),
+    path('models/', views.model_page, name='model_page'),
     path('model-selection/', views.model_selection, name='model_selection'),
+    path('select_model/', views.model_select_view, name='model_select'),
+    #path('logistic_regression_view/', views.logistic_regression_view, name='logistic_regression_view'),
     ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
