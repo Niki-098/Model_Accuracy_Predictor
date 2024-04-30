@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes Classifier</title>
+</head>
+<body>
+    <h1>Naive Bayes Classifier</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Upload the dataset:</p>
+        {{ form.dataset_file }}
+        <br><br>
+        <p>Please enter the name of the target column:</p>
+        {{ form.target_column_name }}
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

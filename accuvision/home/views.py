@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 import pandas as pd
-from .form import UploadForm, UploadFileForm
+from .form import GradientBoostingForm, KNNForm, UploadForm, UploadFileForm
 from .models import UploadedFile
 from django.http import JsonResponse
 
@@ -56,7 +56,7 @@ def show_uploaded_files(request):
 
 
 from django.http import HttpResponseRedirect
-from .utils import auto_preprocess_dataset
+from .utils import auto_preprocess_dataset, train_gradient_boosting, train_knn
 
 def upload_files(request):
     if request.method == 'POST':
@@ -204,7 +204,7 @@ def model_selection(request):
     return render(request, 'model.html')
 
 def model_select_view(request):
-     return render(request, 'model_select.html')
+    return render(request, 'model_select.html')
 
 
 from .utils import train_logistic_regression
@@ -280,7 +280,7 @@ def decision_tree_view(request):
             # Render the results template with the accuracy
             return render(request, 'decision_tree_results.html', {'accuracy': accuracy})
     else:
-        form = TargetColumnForm()
+        form = DecisionTreeForm()
     return render(request, 'decision_tree.html', {'form': form})
 
 
@@ -315,5 +315,200 @@ def random_forest_view(request):
             # Render the results template with the accuracy
             return render(request, 'random_forest_results.html', {'accuracy': accuracy})
     else:
-        form = TargetColumnForm()
+        form = RandomForestForm()
     return render(request, 'random_forest.html', {'form': form})
+
+
+def gradient_boosting_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = GradientBoostingForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the GBM regression training function
+            accuracy = train_gradient_boosting(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'gradient_boosting_results.html', {'accuracy': accuracy})
+    else:
+        form = GradientBoostingForm()
+    return render(request, 'gradient_boosting.html', {'form': form})
+
+
+
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from .form import SVMForm
+from .utils import train_svm
+
+def svm_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = SVMForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the SVM training function
+            accuracy = train_svm(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'svm_results.html', {'accuracy': accuracy})
+    else:
+        form = SVMForm()
+    return render(request, 'svm.html', {'form': form})
+
+
+
+def knn_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = KNNForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the KNN training function
+            accuracy = train_knn(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'knn_results.html', {'accuracy': accuracy})
+    else:
+        form = KNNForm()
+    return render(request, 'knn.html', {'form': form})
+
+
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from .form import Naive_Bayes_Form
+from .utils import train_naive_bayes
+from sklearn.metrics import f1_score
+
+def naive_bayes_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = Naive_Bayes_Form(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the Naive Bayes training function
+            accuracy = train_naive_bayes(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'naive_bayes_results.html', {'accuracy': accuracy})
+    else:
+        form = Naive_Bayes_Form()
+    return render(request, 'naive_bayes.html', {'form': form})
+
+
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from .form import TargetColumnForm
+from .utils import train_kmeans
+
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from .form import Kmeans_clustering_Form
+from .utils import train_kmeans
+
+def kmeans_view(request):
+    if request.method == 'POST':
+        # Check if the form contains the dataset file
+        form = Kmeans_clustering_Form(request.POST, request.FILES)
+        if form.is_valid():
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Get the number of clusters from the form
+            num_clusters = form.cleaned_data['num_clusters']
+
+            # Train the K-Means clustering model
+            clusters = train_kmeans(dataset, num_clusters=num_clusters)
+
+            # Render the results template with the clusters
+            return render(request, 'kmeans_results.html', {'clusters': clusters})
+    else:
+        form = Kmeans_clustering_Form()
+    return render(request, 'kmeans.html', {'form': form})
+
+
+from django.shortcuts import render
+from .form import hierarchical_clustering_Form
+from .utils import train_hierarchical_clustering
+
+def hierarchical_clustering_view(request):
+    if request.method == 'POST':
+        # Check if the form contains the dataset file
+        form = hierarchical_clustering_Form(request.POST, request.FILES)
+        if form.is_valid():
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Get the number of clusters from the form
+            num_clusters = form.cleaned_data['num_clusters']
+
+            # Perform hierarchical clustering
+            clusters = train_hierarchical_clustering(dataset, num_clusters=num_clusters)
+
+            # Render the results template with the clusters
+            return render(request, 'hierarchical_results.html', {'clusters': clusters})
+    else:
+        form = hierarchical_clustering_Form()
+    return render(request, 'hierarchical.html', {'form': form})

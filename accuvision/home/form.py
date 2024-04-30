@@ -46,4 +46,38 @@ class RandomForestForm(forms.Form):
     target_column_name = forms.CharField(label='Target Column Name', max_length=100)
     dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
 
+class GradientBoostingForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+class SVMForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+class KNNForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+class Naive_Bayes_Form(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+
+
+class Kmeans_clustering_Form(forms.Form):
+    dataset_file = forms.FileField(label='Upload Dataset')
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    num_clusters = forms.IntegerField(label='Number of Clusters', min_value=2, initial=2)
+
+
+
+class hierarchical_clustering_Form(forms.Form):
+    dataset_file = forms.FileField(label='Upload Dataset')
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    num_clusters = forms.IntegerField(label='Number of Clusters', min_value=2, initial=2)
+
 
