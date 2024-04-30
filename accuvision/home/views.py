@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from django.forms import ModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 import pandas as pd
 from .form import UploadForm, UploadFileForm
@@ -203,6 +203,9 @@ def model_selection(request):
         
     return render(request, 'model.html')
 
+def model_select_view(request):
+     return render(request, 'model_select.html')
+
 
 from .utils import train_logistic_regression
 #from .form import ModelForm__
@@ -211,15 +214,31 @@ from django.shortcuts import render, redirect
 from .form import TargetColumnForm
 from .utils import train_logistic_regression
 
+import pandas as pd
+
+from django.shortcuts import render
+
+from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from .utils import train_logistic_regression
+
 def logistic_regression_view(request):
     if request.method == 'POST':
-        form = TargetColumnForm(request.POST)
+        # Check if the form contains both dataset and target column name
+        form = TargetColumnForm(request.POST, request.FILES)
         if form.is_valid():
             # Extract the target column name from the form
             target_column_name = form.cleaned_data['target_column_name']
 
-            # Assuming the dataset is already available in the session or some other storage
-            dataset = request.session.get('dataset')  # Adjust this according to your setup
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
 
             # Call the logistic regression training function
             accuracy = train_logistic_regression(dataset, target_column_name)
@@ -230,17 +249,71 @@ def logistic_regression_view(request):
         form = TargetColumnForm()
     return render(request, 'logistic_regression.html', {'form': form})
 
-# views.py
-from django.shortcuts import render, redirect
-from .form import ModelSelectForm
 
-def model_select_view(request):
+
+from django.http import HttpResponseBadRequest
+from .form import DecisionTreeForm
+from .utils import train_decision_tree
+import pandas as pd
+
+def decision_tree_view(request):
     if request.method == 'POST':
-        form = ModelSelectForm(request.POST)
+        # Check if the form contains both dataset and target column name
+        form = DecisionTreeForm(request.POST, request.FILES)
         if form.is_valid():
-            selected_model = form.cleaned_data['selected_model']
-            # Redirect to the appropriate URL based on the selected model
-            return redirect('model_view', model_name=selected_model)
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the decision tree training function
+            accuracy = train_decision_tree(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'decision_tree_results.html', {'accuracy': accuracy})
     else:
-        form = ModelSelectForm()
-    return render(request, 'model_select.html', {'form': form})
+        form = TargetColumnForm()
+    return render(request, 'decision_tree.html', {'form': form})
+
+
+
+
+from .form import RandomForestForm
+from .utils import train_random_forest
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+def random_forest_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = RandomForestForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the random forest training function
+            accuracy = train_random_forest(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'random_forest_results.html', {'accuracy': accuracy})
+    else:
+        form = TargetColumnForm()
+    return render(request, 'random_forest.html', {'form': form})

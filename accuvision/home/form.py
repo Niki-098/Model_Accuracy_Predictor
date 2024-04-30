@@ -25,16 +25,25 @@ class ModelForm(forms.Form):
 #    target_column_name = forms.CharField(label='Target Column Name')
 
 
-class ModelSelectForm(forms.Form):
-    MODELS_CHOICES = [
-        ('logistic_regression', 'Logistic Regression'),
-        ('decision_tree', 'Decision Tree'),
-        # Add more choices for other models
-    ]
-    selected_model = forms.ChoiceField(choices=MODELS_CHOICES, label='Select Model')
 
 
-from django import forms
+
+# forms.py
+
+
 
 class TargetColumnForm(forms.Form):
-    target_column_name = forms.CharField(label='Target Column Name')
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+class DecisionTreeForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
+class RandomForestForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
