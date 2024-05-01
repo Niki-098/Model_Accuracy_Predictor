@@ -18,16 +18,29 @@ def SignUp(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
  
-        data = User.objects.create_uer(first_name = first_name, last_name = last_name, email=email,username=username, password=password1)
+        data = User.objects.create_user(first_name = first_name, last_name = last_name, email=email,username=username, password=password1)
         data.save()
 
-    return render(request,'signup.html')
+    return render(request,'login.html')
 
 
 def Login(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username,password=password)
+
+        if user is not None:
+            auth.login(request,user)
+            return redirect('index.html')
+        
     return render(request,'login.html')
 
 # Create your views here.
+def page(request):
+    return redirect(request,'index.html')
+
+
 def home(request):
     return render(request, 'index.html')
 
