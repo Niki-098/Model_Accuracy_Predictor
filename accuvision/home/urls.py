@@ -25,6 +25,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
    # path('admin/', admin.site.urls),
     path('', views.home, name = 'home'),
+    path('SignUp/',views.SignUp, name = 'SignUp'),
     path('about/',views.about, name = 'about'),
     path('upload/', views.upload_file, name='upload_file'),
     path('upload_success/<str:filename>/', views.upload_success, name='upload_success'),  # URL for upload success
