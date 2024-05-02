@@ -32,13 +32,15 @@ def Login(request):
 
         if user is not None:
             auth.login(request,user)
-            return redirect('index.html')
+            return redirect('index1.html')
         
     return render(request,'login.html')
 
 # Create your views here.
-def page(request):
-    return redirect(request,'index.html')
+
+
+def home1(request):
+    return render(request, 'index1.html')
 
 
 def home(request):

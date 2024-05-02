@@ -5,8 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Forest Results</title>
 </head>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0; /* Light gray background color */
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        width: 50%;
+        padding: 20px;
+        background-color: #fff; /* White background color for the container */
+        border-radius: 10px; /* Rounded corners for the container */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect for the container */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333; /* Dark gray text color */
+    }
+
+    p {
+        text-align: center;
+        font-size: 18px;
+        color: #555; /* Medium gray text color */
+        margin-top: 20px;
+    }
+</style>
+
+</head>
+
 <body>
+    <div class = "container">
     <h1>Random Forest Results</h1>
     <p>The accuracy of the Random Forest classifier is: {{ accuracy }}</p>
+    </div>
 </body>
 </html>
