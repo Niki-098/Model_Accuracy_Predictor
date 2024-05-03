@@ -4,8 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hierarchical Clustering</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background color */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 50%;
+            padding: 20px;
+            background-color: #fff; /* White background color for the container */
+            border-radius: 10px; /* Rounded corners for the container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect for the container */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333; /* Dark gray text color */
+        }
+
+        form {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #555; /* Medium gray text color */
+        }
+
+        button {
+            background-color: #4CAF50; /* Green background color */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Add some padding */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Add cursor pointer */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+    </style>
 </head>
+
 <body>
+    <div class = "container">
     <h1>Hierarchical Clustering</h1>
     <form method="post"  enctype="multipart/form-data">
         {% csrf_token %}
@@ -20,5 +70,6 @@
         <br><br>
         <button type="submit">Submit</button>
     </form>
+</div>
 </body>
 </html>

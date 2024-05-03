@@ -9,6 +9,10 @@ from .models import UploadedFile
 from django.http import JsonResponse
 from django.contrib.auth.models import User,auth
 
+
+def home(request):
+    return render(request, 'index.html')
+
 def SignUp(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -39,12 +43,11 @@ def Login(request):
 # Create your views here.
 
 
-def home1(request):
-    return render(request, 'index1.html')
+#def home1(request):
+#    return render(request, 'index1.html')
 
 
-def home(request):
-    return render(request, 'index.html')
+
 
 def about(request):
     return render(request, 'about.html') 
