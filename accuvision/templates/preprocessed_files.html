@@ -1,35 +1,83 @@
-<!-- preprocessed_files.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preprocessed Data</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light gray background color */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Viewport height */
+        }
+
+        .container {
+            background-color: #fff; /* White background color for the container */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners for the container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect for the container */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333; /* Dark gray text color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Collapse table borders */
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc; /* Light gray border */
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2; /* Light gray background color for table headers */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff; /* Blue link color */
+        }
+
+        a:hover {
+            color: #0056b3; /* Darker blue color on hover */
+        }
+    </style>
 </head>
 <body>
-    <h1>Preprocessed Data</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                {% for column in preprocessed_data.columns %}
-                    <th>{{ column }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for index, row in preprocessed_data.iterrows %}
+    <div class="container">
+        <h1>Preprocessed Data</h1>
+        <table>
+            <thead>
                 <tr>
-                    {% for value in row %}
-                        <td>{{ value }}</td>
+                    {% for column in preprocessed_data.columns %}
+                        <th>{{ column }}</th>
                     {% endfor %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <!-- Add a link to download the preprocessed data in Excel format -->
-    <a href="{% url 'download_preprocessed_data' %}">Download Preprocessed Data (Excel)</a>
-
+            </thead>
+            <tbody>
+                {% for index, row in preprocessed_data.iterrows %}
+                    <tr>
+                        {% for value in row %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Add a link to download the preprocessed data in Excel format -->
+        <a href="{% url 'download_preprocessed_data' %}">Download Preprocessed Data (Excel)</a>
+    </div>
 </body>
 </html>

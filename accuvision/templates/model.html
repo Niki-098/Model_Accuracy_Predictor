@@ -4,22 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Models</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light gray background color */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Viewport height */
+        }
+
+        .form-container {
+            background-color: #fff; /* White background color for the form container */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners for the form container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect for the form container */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333; /* Dark gray text color */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 5px; /* Rounded corners for input fields */
+            box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff; /* Blue button background color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px; /* Rounded corners for the button */
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition for button background color */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue color on hover */
+        }
+    </style>
 </head>
 <body>
-    <h1>Models</h1>
-    <form action="{% url 'model_selection' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="dataset">Upload Dataset:</label>
-        <input type="file" name="dataset" id="dataset">
-        <br><br>
-        <label for="remove_columns">Columns to Remove (comma-separated):</label>
-        <input type="text" name="remove_columns" id="remove_columns">
-        <br><br>
-        <label for="target_label">Select Target Label:</label>
-        <input type="text" name="target_label" id="target_label">
-        <br><br>
-     
-        <button type="submit">Submit</button>
-    </form>
+    <div class="form-container">
+        <h1>Preprocessing</h1>
+        <h2>Remove irrelevant columns</h2>
+        <form action="{% url 'model_selection' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="dataset">Upload Dataset:</label>
+            <input type="file" name="dataset" id="dataset">
+            <br><br>
+            <label for="remove_columns">Columns to Remove (comma-separated):</label>
+            <input type="text" name="remove_columns" id="remove_columns">
+            <br><br>
+           <!--<label for="target_label">Select Target Label:</label>
+            <input type="text" name="target_label" id="target_label">
+            <br><br>-->
+         
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>

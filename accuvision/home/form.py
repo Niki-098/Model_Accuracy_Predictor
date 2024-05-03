@@ -37,6 +37,11 @@ class TargetColumnForm(forms.Form):
     dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
 
 
+class LinearRegressionForm(forms.Form):
+    target_column_name = forms.CharField(label='Target Column Name', max_length=100)
+    dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')
+
+
 class DecisionTreeForm(forms.Form):
     target_column_name = forms.CharField(label='Target Column Name', max_length=100)
     dataset_file = forms.FileField(label='Upload Dataset', help_text='Accepts .csv, .xlsx, .xls files')

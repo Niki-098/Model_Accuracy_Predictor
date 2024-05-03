@@ -55,6 +55,37 @@ def train_logistic_regression(dataset, target_column_name, test_size=0.2, random
     accuracy = accuracy_score(y_test, y_pred)
     return accuracy
 
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def train_linear_regression(dataset, target_column_name, test_size=0.2, random_state=42):
+    # Separate features (X) and target variable (y)
+    X = dataset.drop(columns=target_column_name)
+    y = dataset[target_column_name]
+
+    # Split the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+    # Initialize the Linear Regression model
+    linear_reg_model = LinearRegression()
+
+    # Train the model on the training data
+    linear_reg_model.fit(X_train, y_train)
+
+    # Make predictions on the testing set
+    y_pred = linear_reg_model.predict(X_test)
+
+    # Calculate accuracy
+    # Since Linear Regression is used for regression tasks, accuracy_score is not applicable
+    # You may use other regression metrics like R2 score or Mean Squared Error (MSE)
+    
+    # For example, calculating R2 score
+    r2_score = linear_reg_model.score(X_test, y_test)
+    
+    return r2_score
+
+
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score

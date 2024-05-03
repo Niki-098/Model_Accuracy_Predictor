@@ -4,19 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preprocess Files</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light gray background color */
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Viewport height */
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff; /* White background color for the container */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners for the container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect for the container */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333; /* Dark gray text color */
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff; /* Blue button background color */
+            color: #fff; /* White button text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue color on hover */
+        }
+    </style>
 </head>
 <body>
-    <h1>Select Dataset for Preprocessing</h1>
-    <form id="preprocess_form" method="post" action = {% url 'preprocessing_files' %}>
-        {% csrf_token %}
-        <label for="selected_file">Select File:</label>
-        <select name="selected_file" id="selected_file">
-            {% for file in files %}
-                <option value="{{ file.id }}">{{ file.file.name }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <button type="submit">Preprocess Dataset</button>
-    </form>
-
-    
+    <div class="container">
+        <h1>Select Dataset for Preprocessing</h1>
+        <form id="preprocess_form" method="post" action="{% url 'preprocessing_files' %}">
+            {% csrf_token %}
+            <label for="selected_file">Select File:</label>
+            <select name="selected_file" id="selected_file">
+                {% for file in files %}
+                    <option value="{{ file.id }}">{{ file.file.name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit">Preprocess Dataset</button>
+        </form>
+    </div>
+</body>
+</html>

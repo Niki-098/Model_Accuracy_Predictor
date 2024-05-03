@@ -286,6 +286,40 @@ def logistic_regression_view(request):
 
 
 
+
+from django.http import HttpResponseBadRequest
+import pandas as pd
+from .form import LinearRegressionForm
+from .utils import train_linear_regression
+
+def linear_regression_view(request):
+    if request.method == 'POST':
+        # Check if the form contains both dataset and target column name
+        form = LinearRegressionForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Extract the target column name from the form
+            target_column_name = form.cleaned_data['target_column_name']
+
+            # Process the uploaded dataset
+            dataset_file = form.cleaned_data['dataset_file']
+            if dataset_file.name.endswith('.csv'):
+                dataset = pd.read_csv(dataset_file)
+            elif dataset_file.name.endswith('.xlsx') or dataset_file.name.endswith('.xls'):
+                dataset = pd.read_excel(dataset_file)
+            else:
+                # Handle unsupported file formats or raise an error
+                return HttpResponseBadRequest("Unsupported file format")
+
+            # Call the linear regression training function
+            accuracy = train_linear_regression(dataset, target_column_name)
+
+            # Render the results template with the accuracy
+            return render(request, 'linear_regression_results.html', {'accuracy': accuracy})
+    else:
+        form = LinearRegressionForm()
+    return render(request, 'linear_regression.html', {'form': form})
+
+
 from django.http import HttpResponseBadRequest
 from .form import DecisionTreeForm
 from .utils import train_decision_tree

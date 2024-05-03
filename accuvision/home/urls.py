@@ -52,4 +52,5 @@ urlpatterns = [
     path('naive_bayes_view/', views.naive_bayes_view, name='naive_bayes_view'),
     path('kmeans_view/', views.kmeans_view, name='kmeans_view'),
     path('hierarchical_clustering_view/', views.hierarchical_clustering_view, name='hierarchical_clustering_view'),
+    path('linear_regression_view/', views.linear_regression_view, name='linear_regression_view'),
     ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
